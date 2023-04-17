@@ -1,0 +1,259 @@
+{% extends 'base_category.html' %}
+{% load static %}
+{% block title %}Men Page{% endblock title %}
+
+
+
+
+
+{% block banner_slider %} 
+
+<div id="carouselExampleFade" class="carousel slide carousel-fade">
+    {% for m in men %}
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{{m.carousel_img.url}}" class="d-block w-100" alt="...">
+        <div class="carousel-caption"><h1>{{ m.carousel_text }}</h1></div>
+      </div>
+    </div>
+    {% endfor %}
+    
+   
+</div>
+<style>
+    .carousel-caption {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.5);
+      }
+      .carousel-caption h1 {
+        font-size: 3rem;
+        text-align: center;
+      }
+      
+</style>
+  
+  
+{% endblock banner_slider %}
+ 
+ 
+ 
+ 
+  {% block main-content %}  
+  
+  {% block text1 %}
+  <style>
+    .sec1{
+    height: 3rem;
+  }
+  </style>
+
+  
+  <div  class="sec1">
+    <div class="row bg-dark text-center   text-white border-bottom shadow">
+        <h1>February Specials</h1>
+    </div>
+</div>
+<br>
+
+
+<div class="btn-group">
+  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+    Sort
+  </button>
+  <ul class="dropdown-menu">
+    <form action="" method="get">
+      <a class="dropdown-item" href="?sort_by=price_low_to_high">Sort by Price: Low to High</a>
+      <a class="dropdown-item" href="?sort_by=price_high_to_low">Sort by Price: High to Low</a>
+      <a class="dropdown-item" href="?sort_by=name_a_to_z">Sort by Name: A to Z</a>
+      <a class="dropdown-item" href="?sort_by=name_z_to_a">Sort by Name: Z to A</a>
+      </form>
+  </ul>
+</div>
+
+{% endblock text1 %}
+
+<header class="border-bottom mb-4 pb-3 p-3">
+  <div class="form-inline">
+    <span class="mr-md-auto"><b>{{product_count}}</b>  Items Found</span>
+  </div>
+</header>
+
+
+{% block sub_category1 %}       
+
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% if products %}
+  {% for product in products %}
+   <div class="col d-flex justify-content-center">
+    <div class="card product-card  ms-5">
+      
+      <a href="{{product.get_url }}" >
+        <img src="{{product.images.url}}" class="card-img-top product-card-img" alt="{{product.product_name}}">
+      </a>
+      
+      <div class="card-body product-card-body">
+        <a href="{{product.get_url }} ">
+          <h5 class="card-title product-card-title">{{product.product_name}}</h5>
+        </a>
+
+        <div class="price mt-1">₹{{product.price}}</div>
+        <div class="description mt-1">{{product.description}}</div>
+      
+        <!-- Add a hover effect for the image -->
+        <div class="product-card-img-overlay">
+          <a href="{{product.get_url }}">
+            <span class="product-card-hover-btn">View Details</span>
+          </a>
+        </div>style="z-index: 0!important;"
+        
+      </div>
+    </div>
+   </div>
+
+  {% endfor %}
+
+  {% else %}
+  <div><h2>No result found</h2></div> 
+  {% endif %}
+
+</div>
+
+<style>
+  .product-card {
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    max-height: 500px;
+    max-width:400px;
+    overflow: hidden;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-card-img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+  }
+  
+  .product-card-body {
+    padding: 1rem;4
+  
+  }
+  
+  .product-card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .product-card-img-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .product-card:hover .product-card-img-overlay {
+    opacity: 1;
+  }
+  
+  .product-card-hover-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .product-card-hover-btn:hover {
+    background-color: #555;
+  }
+  
+  
+</style>  
+<nav class="mt-4" aria-label="Page Navigation Sample">
+  {% if products.has_other_pages  %}
+<ul class="pagination">
+  {% if products.has_previous %}
+  <li class="page-item "><a  style="z-index: 0!important;" href="?page={{products.previous_page_number}}" class="page-link">previous</a></li>
+  {% else %}
+  <li class="page-item disabled"><a style="z-index: 0!important;" href="#" class="page-link">previous</a></li>
+  {% endif %}
+  
+  {% for i in products.paginator.page_range %}
+    {% if products.number == i %}
+      <li class="page-item active"><a  style="z-index: 0!important;" href="#" class="page-link">{{i}}</a></li>
+    {% else %}
+
+      <li class="page-item "><a  style="z-index: 0!important;" href="?page={{i}}" class="page-link">{{i}}</a></li>
+    {% endif %} 
+  {% endfor %}
+  
+  
+  {% if products.has_next %}
+  <li class="page-item "><a href="?page={{products.next_page_number}}" class="page-link">Next</a></li>
+  {% else %}
+  <li class="page-item  disabled "><a href="#" class="page-link">Next</a></li>  
+
+  {% endif %}
+
+ </ul>
+{% endif %}
+
+</nav>
+
+
+</div>
+<br>
+<br>
+<br>
+<br> 
+
+
+
+
+
+
+
+
+
+
+{% endblock sub_category1 %}
+
+
+  
+  {% endblock main-content %}
+
+
+
+
+
+
+ 
